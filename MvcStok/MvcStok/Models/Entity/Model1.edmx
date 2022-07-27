@@ -1,0 +1,262 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MvcProjeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TbCategory">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TbCustomer">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="CustomerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerName" Type="varchar" MaxLength="50" />
+          <Property Name="CustomerLastName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TbProduct">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductName" Type="varchar" MaxLength="50" />
+          <Property Name="ProductCategory" Type="int" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="TbSales">
+          <Key>
+            <PropertyRef Name="SalesId" />
+          </Key>
+          <Property Name="SalesId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Product" Type="int" />
+          <Property Name="Customer" Type="int" />
+          <Property Name="Piece" Type="tinyint" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <Association Name="FK_TbProduct_TbCategory">
+          <End Role="TbCategory" Type="Self.TbCategory" Multiplicity="0..1" />
+          <End Role="TbProduct" Type="Self.TbProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TbCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="TbProduct">
+              <PropertyRef Name="ProductCategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TbSales_TbCustomer">
+          <End Role="TbCustomer" Type="Self.TbCustomer" Multiplicity="0..1" />
+          <End Role="TbSales" Type="Self.TbSales" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TbCustomer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="TbSales">
+              <PropertyRef Name="Customer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TbSales_TbProduct">
+          <End Role="TbProduct" Type="Self.TbProduct" Multiplicity="0..1" />
+          <End Role="TbSales" Type="Self.TbSales" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TbProduct">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="TbSales">
+              <PropertyRef Name="Product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MvcProjeModelStoreContainer">
+          <EntitySet Name="TbCategory" EntityType="Self.TbCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TbCustomer" EntityType="Self.TbCustomer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TbProduct" EntityType="Self.TbProduct" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TbSales" EntityType="Self.TbSales" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_TbProduct_TbCategory" Association="Self.FK_TbProduct_TbCategory">
+            <End Role="TbCategory" EntitySet="TbCategory" />
+            <End Role="TbProduct" EntitySet="TbProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TbSales_TbCustomer" Association="Self.FK_TbSales_TbCustomer">
+            <End Role="TbCustomer" EntitySet="TbCustomer" />
+            <End Role="TbSales" EntitySet="TbSales" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TbSales_TbProduct" Association="Self.FK_TbSales_TbProduct">
+            <End Role="TbProduct" EntitySet="TbProduct" />
+            <End Role="TbSales" EntitySet="TbSales" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MvcProjeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TbCategory">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TbProduct" Relationship="Self.FK_TbProduct_TbCategory" FromRole="TbCategory" ToRole="TbProduct" />
+        </EntityType>
+        <EntityType Name="TbCustomer">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="CustomerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerLastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TbSales" Relationship="Self.FK_TbSales_TbCustomer" FromRole="TbCustomer" ToRole="TbSales" />
+        </EntityType>
+        <EntityType Name="TbProduct">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ProductCategory" Type="Int32" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="TbCategory" Relationship="Self.FK_TbProduct_TbCategory" FromRole="TbProduct" ToRole="TbCategory" />
+          <NavigationProperty Name="TbSales" Relationship="Self.FK_TbSales_TbProduct" FromRole="TbProduct" ToRole="TbSales" />
+        </EntityType>
+        <EntityType Name="TbSales">
+          <Key>
+            <PropertyRef Name="SalesId" />
+          </Key>
+          <Property Name="SalesId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Product" Type="Int32" />
+          <Property Name="Customer" Type="Int32" />
+          <Property Name="Piece" Type="Byte" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="TbCustomer" Relationship="Self.FK_TbSales_TbCustomer" FromRole="TbSales" ToRole="TbCustomer" />
+          <NavigationProperty Name="TbProduct" Relationship="Self.FK_TbSales_TbProduct" FromRole="TbSales" ToRole="TbProduct" />
+        </EntityType>
+        <Association Name="FK_TbProduct_TbCategory">
+          <End Role="TbCategory" Type="Self.TbCategory" Multiplicity="0..1" />
+          <End Role="TbProduct" Type="Self.TbProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TbCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="TbProduct">
+              <PropertyRef Name="ProductCategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TbSales_TbCustomer">
+          <End Role="TbCustomer" Type="Self.TbCustomer" Multiplicity="0..1" />
+          <End Role="TbSales" Type="Self.TbSales" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TbCustomer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="TbSales">
+              <PropertyRef Name="Customer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TbSales_TbProduct">
+          <End Role="TbProduct" Type="Self.TbProduct" Multiplicity="0..1" />
+          <End Role="TbSales" Type="Self.TbSales" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TbProduct">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="TbSales">
+              <PropertyRef Name="Product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MvcProjeEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TbCategory" EntityType="Self.TbCategory" />
+          <EntitySet Name="TbCustomer" EntityType="Self.TbCustomer" />
+          <EntitySet Name="TbProduct" EntityType="Self.TbProduct" />
+          <EntitySet Name="TbSales" EntityType="Self.TbSales" />
+          <AssociationSet Name="FK_TbProduct_TbCategory" Association="Self.FK_TbProduct_TbCategory">
+            <End Role="TbCategory" EntitySet="TbCategory" />
+            <End Role="TbProduct" EntitySet="TbProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TbSales_TbCustomer" Association="Self.FK_TbSales_TbCustomer">
+            <End Role="TbCustomer" EntitySet="TbCustomer" />
+            <End Role="TbSales" EntitySet="TbSales" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TbSales_TbProduct" Association="Self.FK_TbSales_TbProduct">
+            <End Role="TbProduct" EntitySet="TbProduct" />
+            <End Role="TbSales" EntitySet="TbSales" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MvcProjeModelStoreContainer" CdmEntityContainer="MvcProjeEntities">
+          <EntitySetMapping Name="TbCategory">
+            <EntityTypeMapping TypeName="MvcProjeModel.TbCategory">
+              <MappingFragment StoreEntitySet="TbCategory">
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TbCustomer">
+            <EntityTypeMapping TypeName="MvcProjeModel.TbCustomer">
+              <MappingFragment StoreEntitySet="TbCustomer">
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerLastName" ColumnName="CustomerLastName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TbProduct">
+            <EntityTypeMapping TypeName="MvcProjeModel.TbProduct">
+              <MappingFragment StoreEntitySet="TbProduct">
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ProductCategory" ColumnName="ProductCategory" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TbSales">
+            <EntityTypeMapping TypeName="MvcProjeModel.TbSales">
+              <MappingFragment StoreEntitySet="TbSales">
+                <ScalarProperty Name="SalesId" ColumnName="SalesId" />
+                <ScalarProperty Name="Product" ColumnName="Product" />
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+                <ScalarProperty Name="Piece" ColumnName="Piece" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

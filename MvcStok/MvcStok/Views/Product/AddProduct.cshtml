@@ -1,0 +1,34 @@
+﻿@model MvcStok.Models.Entity.TbProduct
+@{
+    ViewBag.Title = "AddProduct";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<form class="form-group" method="post">
+
+    <div>
+        <label>Ürün Ad</label>
+       <input id="Text1" type="text" name="ProductName"class="form-control"/>
+
+    </div>
+    <div>
+        <label>Kategori</label>
+        @Html.DropDownListFor(M => M.TbCategory.CategoryId, (List<SelectListItem>)ViewBag.Dgr, new { @class = "form-control" })
+    </div>
+    <div>
+        <label>Price</label>
+        <input id="Text1" type="text" name="Price" class="form-control"/>
+        
+
+    </div>
+    <br />
+    <div>
+        <Button  runat="server" Text="Button" class="btn btn-info">Ürün Ekle</Button>
+    </div>
+
+
+
+
+
+</form>
+

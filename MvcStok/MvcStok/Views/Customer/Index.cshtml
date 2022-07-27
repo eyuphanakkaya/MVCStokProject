@@ -1,0 +1,35 @@
+﻿@using MvcStok.Models.Entity;
+@model List<TbCustomer>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<table class="table table-bordered">
+    <tr>
+        <th>Müşteri Id</th>
+        <th>Müşteri Ad</th>
+        <th>Müşteri Soyadı</th>
+        <th>Sil</th>
+        <th>Güncelle</th>
+        <th>Alert</th>
+    </tr>
+    <tbody>
+        @foreach (var Mstr in Model)
+        {
+            <tr>
+                <th>@Mstr.CustomerId</th>
+                <td>@Mstr.CustomerName</td>
+                <td>@Mstr.CustomerLastName</td>
+                <td><a href="/Customer/DeleteCustomer/@Mstr.CustomerId" class="btn btn-danger">Sil</a></td>
+                <td><a href="/Customer/GetCustomer/@Mstr.CustomerId" class="btn btn-success">Güncelle</a></td>
+                <td>@Html.ActionLink("Sil Butonu","Sil",new { Id=Mstr.CustomerId },new {@class="btn btn-warning",onclick="return confirm('Gerçekten Silmek İstiyor Musunuz?')" })</td>
+            </tr>
+        }
+    </tbody>
+
+
+
+</table>
+<a href="/Customer/AddCustomer/" class="btn btn-default">Yeni Müşteri Ekle</a>
+

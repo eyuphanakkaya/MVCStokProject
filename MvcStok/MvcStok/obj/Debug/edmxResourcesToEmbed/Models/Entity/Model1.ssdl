@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MvcProjeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="TbCategory">
+    <Key>
+      <PropertyRef Name="CategoryId" />
+    </Key>
+    <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CategoryName" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="TbCustomer">
+    <Key>
+      <PropertyRef Name="CustomerId" />
+    </Key>
+    <Property Name="CustomerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerName" Type="varchar" MaxLength="50" />
+    <Property Name="CustomerLastName" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="TbProduct">
+    <Key>
+      <PropertyRef Name="ProductId" />
+    </Key>
+    <Property Name="ProductId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProductName" Type="varchar" MaxLength="50" />
+    <Property Name="ProductCategory" Type="int" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="2" />
+  </EntityType>
+  <EntityType Name="TbSales">
+    <Key>
+      <PropertyRef Name="SalesId" />
+    </Key>
+    <Property Name="SalesId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Product" Type="int" />
+    <Property Name="Customer" Type="int" />
+    <Property Name="Piece" Type="tinyint" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="2" />
+  </EntityType>
+  <Association Name="FK_TbProduct_TbCategory">
+    <End Role="TbCategory" Type="Self.TbCategory" Multiplicity="0..1" />
+    <End Role="TbProduct" Type="Self.TbProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TbCategory">
+        <PropertyRef Name="CategoryId" />
+      </Principal>
+      <Dependent Role="TbProduct">
+        <PropertyRef Name="ProductCategory" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TbSales_TbCustomer">
+    <End Role="TbCustomer" Type="Self.TbCustomer" Multiplicity="0..1" />
+    <End Role="TbSales" Type="Self.TbSales" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TbCustomer">
+        <PropertyRef Name="CustomerId" />
+      </Principal>
+      <Dependent Role="TbSales">
+        <PropertyRef Name="Customer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TbSales_TbProduct">
+    <End Role="TbProduct" Type="Self.TbProduct" Multiplicity="0..1" />
+    <End Role="TbSales" Type="Self.TbSales" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TbProduct">
+        <PropertyRef Name="ProductId" />
+      </Principal>
+      <Dependent Role="TbSales">
+        <PropertyRef Name="Product" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MvcProjeModelStoreContainer">
+    <EntitySet Name="TbCategory" EntityType="Self.TbCategory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TbCustomer" EntityType="Self.TbCustomer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TbProduct" EntityType="Self.TbProduct" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TbSales" EntityType="Self.TbSales" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_TbProduct_TbCategory" Association="Self.FK_TbProduct_TbCategory">
+      <End Role="TbCategory" EntitySet="TbCategory" />
+      <End Role="TbProduct" EntitySet="TbProduct" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TbSales_TbCustomer" Association="Self.FK_TbSales_TbCustomer">
+      <End Role="TbCustomer" EntitySet="TbCustomer" />
+      <End Role="TbSales" EntitySet="TbSales" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TbSales_TbProduct" Association="Self.FK_TbSales_TbProduct">
+      <End Role="TbProduct" EntitySet="TbProduct" />
+      <End Role="TbSales" EntitySet="TbSales" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

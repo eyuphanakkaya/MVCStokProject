@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MvcProjeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="TbCategory">
+    <Key>
+      <PropertyRef Name="CategoryId" />
+    </Key>
+    <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="TbProduct" Relationship="Self.FK_TbProduct_TbCategory" FromRole="TbCategory" ToRole="TbProduct" />
+  </EntityType>
+  <EntityType Name="TbCustomer">
+    <Key>
+      <PropertyRef Name="CustomerId" />
+    </Key>
+    <Property Name="CustomerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CustomerLastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="TbSales" Relationship="Self.FK_TbSales_TbCustomer" FromRole="TbCustomer" ToRole="TbSales" />
+  </EntityType>
+  <EntityType Name="TbProduct">
+    <Key>
+      <PropertyRef Name="ProductId" />
+    </Key>
+    <Property Name="ProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ProductCategory" Type="Int32" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
+    <NavigationProperty Name="TbCategory" Relationship="Self.FK_TbProduct_TbCategory" FromRole="TbProduct" ToRole="TbCategory" />
+    <NavigationProperty Name="TbSales" Relationship="Self.FK_TbSales_TbProduct" FromRole="TbProduct" ToRole="TbSales" />
+  </EntityType>
+  <EntityType Name="TbSales">
+    <Key>
+      <PropertyRef Name="SalesId" />
+    </Key>
+    <Property Name="SalesId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Product" Type="Int32" />
+    <Property Name="Customer" Type="Int32" />
+    <Property Name="Piece" Type="Byte" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
+    <NavigationProperty Name="TbCustomer" Relationship="Self.FK_TbSales_TbCustomer" FromRole="TbSales" ToRole="TbCustomer" />
+    <NavigationProperty Name="TbProduct" Relationship="Self.FK_TbSales_TbProduct" FromRole="TbSales" ToRole="TbProduct" />
+  </EntityType>
+  <Association Name="FK_TbProduct_TbCategory">
+    <End Role="TbCategory" Type="Self.TbCategory" Multiplicity="0..1" />
+    <End Role="TbProduct" Type="Self.TbProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TbCategory">
+        <PropertyRef Name="CategoryId" />
+      </Principal>
+      <Dependent Role="TbProduct">
+        <PropertyRef Name="ProductCategory" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TbSales_TbCustomer">
+    <End Role="TbCustomer" Type="Self.TbCustomer" Multiplicity="0..1" />
+    <End Role="TbSales" Type="Self.TbSales" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TbCustomer">
+        <PropertyRef Name="CustomerId" />
+      </Principal>
+      <Dependent Role="TbSales">
+        <PropertyRef Name="Customer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TbSales_TbProduct">
+    <End Role="TbProduct" Type="Self.TbProduct" Multiplicity="0..1" />
+    <End Role="TbSales" Type="Self.TbSales" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TbProduct">
+        <PropertyRef Name="ProductId" />
+      </Principal>
+      <Dependent Role="TbSales">
+        <PropertyRef Name="Product" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MvcProjeEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="TbCategory" EntityType="Self.TbCategory" />
+    <EntitySet Name="TbCustomer" EntityType="Self.TbCustomer" />
+    <EntitySet Name="TbProduct" EntityType="Self.TbProduct" />
+    <EntitySet Name="TbSales" EntityType="Self.TbSales" />
+    <AssociationSet Name="FK_TbProduct_TbCategory" Association="Self.FK_TbProduct_TbCategory">
+      <End Role="TbCategory" EntitySet="TbCategory" />
+      <End Role="TbProduct" EntitySet="TbProduct" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TbSales_TbCustomer" Association="Self.FK_TbSales_TbCustomer">
+      <End Role="TbCustomer" EntitySet="TbCustomer" />
+      <End Role="TbSales" EntitySet="TbSales" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TbSales_TbProduct" Association="Self.FK_TbSales_TbProduct">
+      <End Role="TbProduct" EntitySet="TbProduct" />
+      <End Role="TbSales" EntitySet="TbSales" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

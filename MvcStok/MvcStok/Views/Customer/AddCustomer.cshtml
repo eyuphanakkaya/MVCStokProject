@@ -1,0 +1,31 @@
+﻿@model MvcStok.Models.Entity.TbCustomer
+@{
+    ViewBag.Title = "AddCustomer";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<form class="form-group" method="post">
+    <div>
+        <label>Müşteri Ad</label>
+        @Html.TextBoxFor(m => m.CustomerName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.CustomerName, "", new { @style = "color:red" })
+    </div>
+    <div>
+        <label>Müşteri Soyad</label>
+        <input id="Text1" type="text" name="CustomerLastName" class="form-control" />
+    </div>
+    <br />
+    <div>
+        <button class="btn btn-info" id="Btn1">Müşteri Ekle</button>
+    </div>
+    <script>
+        $('#Btn1').click(function () {
+            alert('Müşteri Ekleme İşlemi Gerçekleşti...!');
+        });
+    </script>
+
+
+
+
+</form>
+
